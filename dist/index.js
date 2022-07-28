@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var path_1 = __importDefault(require("path"));
 var imageMiddleware_1 = __importDefault(require("./middlewares/imageMiddleware"));
 var app = (0, express_1.default)();
 var port = 3000;
@@ -15,7 +16,7 @@ app.get('/api/images', imageMiddleware_1.default, function (req, res) {
         var width = parseInt(req.query.width);
         var height = parseInt(req.query.height);
         //respond with the resized image
-        res.sendFile("D:/Courses/Nodejs Udacity/2-Backend Development with Node.js/Project/assets/thumb/".concat(width, "x").concat(height).concat(filename, ".jpg"));
+        res.sendFile(path_1.default.resolve("assets/thumb/".concat(width, "x").concat(height).concat(filename, ".jpg")));
     }
     catch (error) {
         res.status(400).json({ status: 0, message: error });

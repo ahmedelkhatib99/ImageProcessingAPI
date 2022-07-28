@@ -19,7 +19,7 @@ describe('Test resize image endpoint response', () => {
 
     it('should respond with status 200 for different width and height', async () => {
         const response = await request.get(
-            '/api/images?filename=fjord&width=900&height=1200'
+            '/api/images?filename=fjord&width=400&height=500'
         );
         expect(response.status).toBe(200);
     });

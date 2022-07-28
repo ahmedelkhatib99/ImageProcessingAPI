@@ -13,10 +13,10 @@
         "@typescript-eslint/strict-boolean-expressions": [
             2,
             {
-                "allowString" : false,
-                "allowNumber" : false
+                "allowString" : true,
+                "allowNumber" : true
             }
         ]
     },
-    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+    "ignorePatterns": ["src/**/*[sS]pec.ts", "src/frontend/generated/*"]
 }

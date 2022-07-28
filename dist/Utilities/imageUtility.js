@@ -39,57 +39,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_1 = __importDefault(require("fs"));
-var imageUtility_1 = __importDefault(require("../Utilities/imageUtility"));
-var winston_1 = require("winston");
-var logger = (0, winston_1.createLogger)({
-    transports: [new winston_1.transports.Console()],
-    format: winston_1.format.combine(winston_1.format.colorize(), winston_1.format.timestamp(), winston_1.format.printf(function (_a) {
-        var timestamp = _a.timestamp, level = _a.level, message = _a.message;
-        return "[".concat(timestamp, "] ").concat(level, ": ").concat(message);
-    })),
-});
-//Middleware for resizing an image
-function resizeImageMiddleware(req, res, next) {
+var sharp_1 = __importDefault(require("sharp"));
+function resizeImage(inputPath, outputPath, width, height) {
     return __awaiter(this, void 0, void 0, function () {
-        var filename, width, height, inputPath, outputPath, error_1, message;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 4, , 5]);
-                    filename = req.query.filename;
-                    width = parseInt(req.query.width);
-                    height = parseInt(req.query.height);
-                    //check for filename, width and height before resizing the image
-                    if (!filename || !width || !height) {
-                        throw new Error('filename, width and height must be provided');
-                    }
-                    inputPath = "./assets/full/".concat(filename, ".jpg");
-                    outputPath = "./assets/thumb/".concat(width, "x").concat(height).concat(filename, ".jpg");
-                    if (!!fs_1.default.existsSync(outputPath)) return [3 /*break*/, 2];
-                    //resize the image and save it to thumb folder if does not exist
-                    logger.info("sending the new created version of ".concat(width, "x").concat(height).concat(filename));
-                    return [4 /*yield*/, (0, imageUtility_1.default)(inputPath, outputPath, width, height)];
-                case 1:
-                    _a.sent();
-                    return [3 /*break*/, 3];
-                case 2:
-                    //send the resized version if it exists
-                    logger.info("sending the old existing version of ".concat(width, "x").concat(height).concat(filename));
-                    _a.label = 3;
-                case 3:
-                    next();
-                    return [3 /*break*/, 5];
-                case 4:
-                    error_1 = _a.sent();
-                    message = 'Unknown Error';
-                    if (error_1 instanceof Error)
-                        message = error_1.message;
-                    res.status(400).json({ status: 0, message: message });
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                case 0: return [4 /*yield*/, (0, sharp_1.default)(inputPath).resize(width, height).toFile(outputPath)];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });
 }
-exports.default = resizeImageMiddleware;
+exports.default = resizeImage;

@@ -39,66 +39,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var supertest_1 = __importDefault(require("supertest"));
-var index_1 = __importDefault(require("../index"));
-var request = (0, supertest_1.default)(index_1.default);
-describe('Test resize image endpoint response', function () {
-    it('should respond with status 200', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
+var imageUtility_1 = __importDefault(require("./../../Utilities/imageUtility"));
+describe('Test resize image function', function () {
+    it('New image should be resized', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var width, height, inputPath, outputPath, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api/images?filename=fjord&width=200&height=200')];
+                case 0:
+                    width = 100;
+                    height = 100;
+                    inputPath = "./assets/full/fjord.jpg";
+                    outputPath = "./assets/thumb/".concat(width, "x").concat(height, "fjord.jpg");
+                    return [4 /*yield*/, (0, imageUtility_1.default)(inputPath, outputPath, width, height)];
                 case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
+                    result = _a.sent();
+                    expect(result.width).toBe(width);
+                    expect(result.height).toBe(height);
                     return [2 /*return*/];
             }
         });
     }); });
-    it('should respond with status 200 for different image', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
+    it('New image should be resized for different path, width and height', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var width, height, inputPath, outputPath, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api/images?filename=icelandwaterfall&width=200&height=200')];
+                case 0:
+                    width = 300;
+                    height = 300;
+                    inputPath = "./assets/full/santamonica.jpg";
+                    outputPath = "./assets/thumb/".concat(width, "x").concat(height, "fjord.jpg");
+                    return [4 /*yield*/, (0, imageUtility_1.default)(inputPath, outputPath, width, height)];
                 case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('should respond with status 200 for different width and height', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api/images?filename=fjord&width=400&height=500')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('should respond with status 400 for missing width and height', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api/images?filename=fjord')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(400);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('should respond with status 400 for image does not exist', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api/images?filename=anyimage&width=900&height=1200')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(400);
+                    result = _a.sent();
+                    expect(result.width).toBe(width);
+                    expect(result.height).toBe(height);
                     return [2 /*return*/];
             }
         });
